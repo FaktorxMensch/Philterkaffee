@@ -111,6 +111,12 @@ AnkiPhil-Tags enthalten `#`, `$`, `§`, `&`, `{` und literale Backslashes
 (`Obere\_Extremität`). Suchen werden deshalb ausschließlich über `SearchNode`
 und `col.build_search_string()` gebaut, nie durch Zusammensetzen von Text.
 
+## Veröffentlichen
+
+[docs/VEROEFFENTLICHEN.md](docs/VEROEFFENTLICHEN.md) hält fest, was AnkiWeb
+verlangt (Lizenz, Paketform, Marken), was beim Hochladen abgefragt wird, und
+enthält den fertigen Text für die Beschreibung.
+
 ## Hintergrund
 
 [ANALYSE_UND_PLAN.md](ANALYSE_UND_PLAN.md) hält fest, was im AnkiPhil-Stapel

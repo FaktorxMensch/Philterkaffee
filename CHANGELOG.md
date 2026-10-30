@@ -5,7 +5,7 @@ Versionierung nach [SemVer](https://semver.org/lang/de/).
 
 ## [1.0.0] — 2026-10-30
 
-Erste Fassung.
+Erste Fassung von **Philterkaffee**.
 
 ### Neu
 

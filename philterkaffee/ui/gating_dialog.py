@@ -68,14 +68,14 @@ class Mode(Enum):
 
 
 class GatingDialog(QDialog):
-    GEOMETRY_KEY = "ankiphilLernplanGating"
+    GEOMETRY_KEY = "philterkaffeeGating"
 
     def __init__(self, parent: QWidget, mw, tax: Taxonomy) -> None:
         super().__init__(parent)
         self.mw = mw
         self.col = mw.col
         self.taxonomy = tax
-        self.setWindowTitle("Karten ein- und ausschließen")
+        self.setWindowTitle("Philterkaffee — Karten ein- und ausschließen")
         self.setWindowIcon(branding.icon())
         self._total: Counter[str] = Counter()
         self._suspended: Counter[str] = Counter()

@@ -1,10 +1,13 @@
-<img src="ankiphil_lernplan/assets/logo-128.png" width="96" align="right" alt="">
+<img src="philterkaffee/assets/logo-128.png" width="96" align="right" alt="">
 
-# AnkiPhil Lernplan-Auswahlstapel
+# Philterkaffee
 
-Anki-Addon für das Physikum: baut aus den Lernplan-Tags des AnkiPhil-Stapels
-benannte, priorisierte Auswahlstapel pro Lerntag — mit Vorschau,
-Nachkontrolle und einer einzigen Rückgängig-Stufe.
+**Auswahlstapel für AnkiPhil, frisch aufgebrüht.** Oben kippst du den Lernplan
+rein, unten kommt dein Lerntag raus — das Koffein musst du selbst dazugeben.
+
+Ein Anki-Addon fürs Physikum: es baut aus den Lernplan-Tags deines
+AnkiPhil-Stapels benannte, priorisierte Auswahlstapel pro Lerntag — mit
+Vorschau, Nachkontrolle und einer einzigen Rückgängig-Stufe.
 
 Statt für 43 Lerntage einzeln einen Auswahlstapel anzulegen, Suchen abzutippen
 und sich zu fragen, warum nur 95 statt 361 Karten drin sind, macht das Addon
@@ -17,7 +20,7 @@ installierten AnkiPhil-Stapel mit Lernplan-Tags.
 
 ## Installieren
 
-**Fertiges Paket** (zum Weitergeben): `dist/ankiphil-lernplan-1.0.0.ankiaddon`
+**Fertiges Paket** (zum Weitergeben): `dist/philterkaffee-1.0.0.ankiaddon`
 verschicken. In Anki: `Extras → Add-ons → Aus Datei installieren …`, danach
 Anki neu starten.
 
@@ -30,12 +33,12 @@ python3 tools/build_ankiaddon.py
 **Zum Entwickeln** den Addon-Ordner direkt verlinken:
 
 ```bash
-ln -sfn "$PWD/ankiphil_lernplan" "$HOME/Library/Application Support/Anki2/addons21/ankiphil_lernplan"
+ln -sfn "$PWD/philterkaffee" "$HOME/Library/Application Support/Anki2/addons21/philterkaffee"
 ```
 
 ## Bedienen
 
-Unter **Extras → AnkiPhil Lernplan**, und als Knopf **„Lernplan"** unten im
+Unter **Extras → Philterkaffee**, und als Knopf **„Philterkaffee"** unten im
 Stapelbrowser neben „Datei importieren".
 
 | Menüeintrag | Was es tut |
@@ -48,7 +51,7 @@ Stapelbrowser neben „Datei importieren".
 | Karten ein-/ausschließen … | Suspendieren und Reaktivieren nach Tag, im ganzen AnkiPhil-Stapel |
 
 Die ausführliche Beschreibung steht in
-[ankiphil_lernplan/README.md](ankiphil_lernplan/README.md).
+[philterkaffee/README.md](philterkaffee/README.md).
 
 ## Was es kann
 
@@ -92,7 +95,7 @@ ihrem Lernstand in die Heimatstapel zurück.
 ## Aufbau
 
 ```
-ankiphil_lernplan/
+philterkaffee/
   __init__.py        Menü, Knopf im Stapelbrowser, Dialog-Registrierung
   branding.py        Name, Version, Urheber, Symbol
   core/              Logik ohne Oberfläche — einzeln testbar
@@ -130,10 +133,11 @@ und liegt nur noch zum Nachschlagen dabei.
 ## Lizenz und Urheber
 
 © 2026 Faktor Mensch MEDIA UG (haftungsbeschränkt), Emanuel Leube.
+<https://github.com/FaktorxMensch/Philterkaffee>
 
 Lizenziert unter der **GNU Affero General Public License, Version 3 oder
 später** ([LICENSE](LICENSE)) — wie Anki selbst, mit dem das Addon im selben
 Prozess läuft.
 
-AnkiPhil und AMBOSS sind Marken ihrer jeweiligen Inhaber. Dieses Addon ist ein
+AnkiPhil und AMBOSS sind Marken ihrer jeweiligen Inhaber. Philterkaffee ist ein
 unabhängiges Werkzeug und steht in keiner Verbindung zu ihnen.

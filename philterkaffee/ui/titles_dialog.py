@@ -18,7 +18,7 @@ from . import widgets
 
 
 class TitlesDialog(QDialog):
-    GEOMETRY_KEY = "ankiphilLernplanTitles"
+    GEOMETRY_KEY = "philterkaffeeTitles"
 
     def __init__(
         self,

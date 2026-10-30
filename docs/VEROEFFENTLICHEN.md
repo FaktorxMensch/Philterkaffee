@@ -1,5 +1,7 @@
 # Veröffentlichen auf AnkiWeb
 
+Repository: <https://github.com/FaktorxMensch/Philterkaffee>
+
 Stand der Recherche: 2026-10-30. Quellen am Ende.
 
 ## Was AnkiWeb verlangt — und wo wir stehen
@@ -13,6 +15,7 @@ Stand der Recherche: 2026-10-30. Quellen am Ende.
 | Kein `meta.json` im ZIP | [Add-on folders](https://docs.ankiweb.net/addons/addon-folders) | ✅ ausgeschlossen |
 | Keine Inhalte ohne Nutzungsrecht (Copyright, **Marken**) | [Terms](https://ankiweb.net/account/terms), „Acceptable Content" | ⚠️ siehe „Name und Marken" |
 | AnkiWeb-Konto zum Hochladen | [ankiweb.net/shared/addons](https://ankiweb.net/shared/addons) | ⬜ deins |
+| Support-Seite / `homepage` in der `manifest.json` | — | ✅ GitHub-URL eingetragen |
 
 `manifest.json` ist laut Doku **nur für die Weitergabe außerhalb von AnkiWeb**
 nötig (`package` und `name`). Für AnkiWeb-Uploads schadet sie nicht, und für das
@@ -28,8 +31,8 @@ Die Upload-Seite erwartet zusätzlich:
   Markdown-Formatierung funktioniert. Fertiger Text unten.
 - **Unterstützte Anki-Versionen** — hier **23.10** als Minimum. Das ist dieselbe
   Grenze wie `min_point_version: 231000` in der `manifest.json`.
-- **Support-Seite** — sinnvollerweise die GitHub-URL. Sobald das Repo steht,
-  gehört sie auch in `manifest.json` unter `homepage` und ins README.
+- **Support-Seite** — <https://github.com/FaktorxMensch/Philterkaffee>. Steht
+  bereits in `manifest.json` unter `homepage` und im README.
 
 ## Name und Marken
 
@@ -51,17 +54,17 @@ Das ist eine praktische Einschätzung, keine Rechtsberatung.
 ## Zwei Fallstricke beim Betrieb
 
 **Doppelte Installation.** Addons von AnkiWeb landen in einem Ordner mit der
-numerischen Addon-ID, nicht in `ankiphil_lernplan`. Wer den Entwicklungs-Symlink
+numerischen Addon-ID, nicht in `philterkaffee`. Wer den Entwicklungs-Symlink
 behält *und* die AnkiWeb-Fassung installiert, hat das Addon zweimal laufen —
 mit zwei Menüeinträgen und zwei Knöpfen. Vor dem Testen der veröffentlichten
 Fassung den Symlink entfernen:
 
 ```bash
-rm "$HOME/Library/Application Support/Anki2/addons21/ankiphil_lernplan"
+rm "$HOME/Library/Application Support/Anki2/addons21/philterkaffee"
 ```
 
 **Der Code ist ordnerunabhängig.** Es gibt nur relative Importe, kein
-`import ankiphil_lernplan`. Der Zahlen-Ordner von AnkiWeb macht also keine
+`import philterkaffee`. Der Zahlen-Ordner von AnkiWeb macht also keine
 Probleme.
 
 ## Fertiger Text für die Beschreibung
@@ -72,9 +75,12 @@ anpassen.
 
 ---
 
-Baut aus den Lernplan-Tags deines AnkiPhil-Stapels benannte, priorisierte
-Auswahlstapel pro Lerntag — mit Vorschau, Nachkontrolle und einer einzigen
-Rückgängig-Stufe.
+Auswahlstapel für AnkiPhil, frisch aufgebrüht. Oben kippst du den Lernplan rein,
+unten kommt dein Lerntag raus — das Koffein musst du selbst dazugeben.
+
+Philterkaffee baut aus den Lernplan-Tags deines AnkiPhil-Stapels benannte,
+priorisierte Auswahlstapel pro Lerntag — mit Vorschau, Nachkontrolle und einer
+einzigen Rückgängig-Stufe.
 
 Statt für 43 Lerntage einzeln einen Auswahlstapel anzulegen, Suchen abzutippen
 und sich zu fragen, warum nur 95 statt 361 Karten drin sind, macht das Addon den
@@ -118,14 +124,16 @@ ganzen Plan in einem Durchgang — und sagt vorher, was passieren wird.
 
 **Bedienung**
 
-Extras → (Addon-Menü), oder der Knopf unten im Stapelbrowser neben „Datei
-importieren".
+Extras → Philterkaffee, oder der Knopf „Philterkaffee“ unten im Stapelbrowser
+neben „Datei importieren“.
 
 Benötigt Anki 23.10 oder neuer und einen installierten AnkiPhil-Stapel mit
 Lernplan-Tags.
 
+Quelltext und Support: https://github.com/FaktorxMensch/Philterkaffee
+
 Lizenz: AGPL-3.0-or-later. AnkiPhil und AMBOSS sind Marken ihrer jeweiligen
-Inhaber; dieses Addon ist unabhängig und steht in keiner Verbindung zu ihnen.
+Inhaber; Philterkaffee ist unabhängig und steht in keiner Verbindung zu ihnen.
 
 ---
 

@@ -38,8 +38,8 @@ FSRS_ONLY_ORDERS = frozenset(
 
 
 class LernplanDialog(QDialog):
-    GEOMETRY_KEY = "ankiphilLernplanMain"
-    DIALOG_KEY = "AnkiphilLernplanDialog"
+    GEOMETRY_KEY = "philterkaffeeMain"
+    DIALOG_KEY = "PhilterkaffeeDialog"
     silentlyClose = True
 
     def __init__(self, mw) -> None:
@@ -47,7 +47,7 @@ class LernplanDialog(QDialog):
         self.mw = mw
         self.col = mw.col
         mw.garbage_collect_on_dialog_finish(self)
-        self.setWindowTitle("AnkiPhil Lernplan — Auswahlstapel")
+        self.setWindowTitle("Philterkaffee — Auswahlstapel erstellen")
         self.setWindowIcon(branding.icon())
 
         self.settings: Settings = Settings()

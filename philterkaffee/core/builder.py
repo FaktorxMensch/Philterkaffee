@@ -28,7 +28,7 @@ from . import query
 from .config import Settings
 from .planner import PlanResult
 
-UNDO_NAME = "AnkiPhil Lernplan-Auswahlstapel"
+UNDO_NAME = "Philterkaffee: Lernplan-Auswahlstapel"
 
 
 @dataclass

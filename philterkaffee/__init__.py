@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-"""AnkiPhil Lernplan-Auswahlstapel.
+"""Philterkaffee — Lernplan-Auswahlstapel für AnkiPhil.
 
-Baut aus den Lernplan-Tags eines AnkiPhil-Stapels benannte, priorisierte
+Oben kommt der Lernplan rein, unten der Lerntag raus: benannte, priorisierte
 Auswahlstapel pro Lerntag — mit Vorschau, Nachkontrolle und einer einzigen
 Rückgängig-Stufe.
 
-Einstieg: Extras → „AnkiPhil Lernplan“, oder der Knopf „Lernplan“ unten im
+Einstieg: Extras → „Philterkaffee“, oder der Knopf „Philterkaffee“ unten im
 Stapelbrowser.
 
 Copyright (c) 2026 Faktor Mensch MEDIA UG (haftungsbeschränkt),
@@ -23,14 +23,14 @@ from aqt.utils import showWarning
 from .branding import MENU_TITLE, icon
 
 MIN_POINT_VERSION = 231000
-BOTTOM_BAR_COMMAND = "ankiphil_lernplan"
-BOTTOM_BAR_LABEL = "Lernplan"
+BOTTOM_BAR_COMMAND = "philterkaffee"
+BOTTOM_BAR_LABEL = "Philterkaffee"
 
 
 def _ready() -> bool:
     if point_version() < MIN_POINT_VERSION:
         showWarning(
-            "Das Addon „AnkiPhil Lernplan-Auswahlstapel“ braucht mindestens "
+            "Das Addon „Philterkaffee“ braucht mindestens "
             f"Anki {int_version_to_str(MIN_POINT_VERSION)}.\n\n"
             f"Installiert ist {int_version_to_str(point_version())}. Benötigt "
             "werden neuere Bausteine für Auswahlstapel (leere Stapel anlegen, "

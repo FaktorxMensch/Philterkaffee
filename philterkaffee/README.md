@@ -1,4 +1,7 @@
-# AnkiPhil Lernplan-Auswahlstapel
+# Philterkaffee
+
+**Auswahlstapel für AnkiPhil, frisch aufgebrüht.** Oben kippst du den Lernplan
+rein, unten kommt dein Lerntag raus — das Koffein musst du selbst dazugeben.
 
 Anki-Addon: baut aus den Lernplan-Tags eines AnkiPhil-Stapels benannte,
 priorisierte Auswahlstapel pro Lerntag — mit Vorschau, Nachkontrolle und einer
@@ -11,10 +14,11 @@ Benötigt Anki 23.10 oder neuer. Entwickelt und getestet gegen Anki 26.09.3.
 Das Addon liegt als Ordner im Projekt und ist in Anki verlinkt:
 
 ```bash
-ln -sfn "$PWD/ankiphil_lernplan" "$HOME/Library/Application Support/Anki2/addons21/ankiphil_lernplan"
+ln -sfn "$PWD/philterkaffee" "$HOME/Library/Application Support/Anki2/addons21/philterkaffee"
 ```
 
-Anki danach neu starten. Der Einstieg sitzt unter **Extras → AnkiPhil Lernplan**.
+Anki danach neu starten. Der Einstieg sitzt unter **Extras → Philterkaffee**
+und als Knopf **„Philterkaffee“** unten im Stapelbrowser.
 
 ## Die drei Fenster
 
@@ -99,7 +103,7 @@ werden nie angefasst.
 ## Einstellungen
 
 Alles wird mit `col.set_config()` in der Sammlung gespeichert (Schlüssel
-`ankiphilLernplan`) und synchronisiert mit. Pro Profil eigene Einstellungen,
+`philterkaffee`) und synchronisiert mit. Pro Profil eigene Einstellungen,
 keine zweite Wahrheit in einer Datei.
 
 ## Aufbau

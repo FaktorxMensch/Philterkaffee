@@ -1,4 +1,6 @@
-# AnkiPhil Lernplan-Auswahlstapel — Analyse & Entwicklungsplan
+# Philterkaffee — Analyse & Entwicklungsplan
+
+(Entstanden unter dem Arbeitstitel „AnkiPhil Lernplan-Auswahlstapel“.)
 
 Stand: 2026-10-30 · Anki 26.09.3 (venv) · Stapel `AMBOSS_feat_Ankiphil__Vorklinik_v60.apkg`
 
@@ -215,7 +217,7 @@ kein Fundament.
 
 ## 4. Addon-Architektur
 
-Anki 26.09.3, PyQt6. Addon-Ordner (`addons21/ankiphil_lernplan/`):
+Anki 26.09.3, PyQt6. Addon-Ordner (`addons21/philterkaffee/`):
 
 ```
 __init__.py          Menü-Registrierung, lazy imports

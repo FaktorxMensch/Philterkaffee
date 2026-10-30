@@ -21,7 +21,7 @@ import sys
 import zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-PACKAGE = ROOT / "ankiphil_lernplan"
+PACKAGE = ROOT / "philterkaffee"
 DIST = ROOT / "dist"
 
 EXCLUDED_NAMES = {"meta.json", ".DS_Store"}
@@ -56,7 +56,7 @@ def main() -> int:
         return 1
 
     DIST.mkdir(exist_ok=True)
-    target = DIST / f"ankiphil-lernplan-{version}.ankiaddon"
+    target = DIST / f"philterkaffee-{version}.ankiaddon"
     with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as archive:
         for path in files:
             archive.write(path, path.relative_to(PACKAGE).as_posix())

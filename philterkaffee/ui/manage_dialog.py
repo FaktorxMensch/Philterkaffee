@@ -25,14 +25,14 @@ from . import widgets
 
 
 class ManageDialog(QDialog):
-    GEOMETRY_KEY = "ankiphilLernplanManage"
+    GEOMETRY_KEY = "philterkaffeeManage"
 
     def __init__(self, parent: QWidget, mw, settings: Settings) -> None:
         super().__init__(parent)
         self.mw = mw
         self.col = mw.col
         self.settings = settings
-        self.setWindowTitle("Auswahlstapel verwalten")
+        self.setWindowTitle("Philterkaffee — Auswahlstapel verwalten")
         self.setWindowIcon(branding.icon())
         self._rows: list[dict] = []
         self._order_values: list[int] = []

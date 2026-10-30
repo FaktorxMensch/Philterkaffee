@@ -14,7 +14,10 @@ from enum import Enum
 from .naming import DEFAULT_PATTERN
 from .query import CardState, PriorityJoin
 
-CONFIG_KEY = "ankiphilLernplan"
+CONFIG_KEY = "philterkaffee"
+# Schlüssel aus der Zeit vor der Umbenennung — wird noch gelesen, damit
+# bestehende Einstellungen nicht still verloren gehen.
+LEGACY_CONFIG_KEYS = ("ankiphilLernplan",)
 CONFIG_VERSION = 1
 
 
@@ -184,11 +187,14 @@ class Settings:
 
 
 def load(col) -> Settings:
-    try:
-        raw = col.get_config(CONFIG_KEY, default=None)
-    except Exception:
-        raw = None
-    return Settings.from_dict(raw)
+    for key in (CONFIG_KEY, *LEGACY_CONFIG_KEYS):
+        try:
+            raw = col.get_config(key, default=None)
+        except Exception:
+            raw = None
+        if raw is not None:
+            return Settings.from_dict(raw)
+    return Settings()
 
 
 def save(col, settings: Settings) -> None:

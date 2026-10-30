@@ -448,9 +448,17 @@ class LernplanDialog(QDialog):
 
     # --- Daten laden -----------------------------------------------------
 
-    def _load_collection_data(self) -> None:
+    def _load_collection_data(self, override: Settings | None = None) -> None:
+        """Liest Tags, Pläne und Stapel der Sammlung neu ein.
+
+        ``override`` setzt die gespeicherten Einstellungen außer Kraft. Beim
+        Wechsel des Basis-Tags ist das nötig: sonst würde hier wieder der in
+        der Sammlung gespeicherte Basis-Tag gelesen und die eben getroffene
+        Auswahl überschrieben.
+        """
+
         def op(col):
-            settings = config.load(col)
+            settings = override if override is not None else config.load(col)
             all_tags = col.tags.all()
             bases = taxonomy.discover_bases(all_tags)
             base = settings.base if settings.base in bases else (bases[0] if bases else "")
@@ -734,12 +742,20 @@ class LernplanDialog(QDialog):
     def _on_base_changed(self, *_args) -> None:
         if self._loading:
             return
-        self.settings.base = self.base_combo.currentText()
-        self.settings.plan = ""
-        self.settings.selected_groups = []
-        self.settings.titles = {}
+        chosen = self.base_combo.currentText()
+        if not chosen or (self.taxonomy is not None and chosen == self.taxonomy.base):
+            return
+        settings = self.settings
+        settings.base = chosen
+        # Plan, Lerntage, Titel, Facetten-Ast und Prioritäts-Tags tragen den
+        # alten Basis-Tag im Namen und wären unter dem neuen wertlos.
+        settings.plan = ""
+        settings.selected_groups = []
+        settings.titles = {}
+        settings.title_facet_root = ""
+        settings.priority_tags = []
         self._loading = True
-        self._load_collection_data()
+        self._load_collection_data(settings)
 
     def _on_plan_changed(self, *_args) -> None:
         if self._loading:
@@ -1211,7 +1227,11 @@ class LernplanDialog(QDialog):
             except Exception:
                 pass
         saveGeom(self, self.GEOMETRY_KEY)
-        aqt.dialogs.markClosed(self.DIALOG_KEY)
+        try:
+            aqt.dialogs.markClosed(self.DIALOG_KEY)
+        except KeyError:
+            # Nicht registriert — das Schließen darf daran nicht scheitern.
+            pass
         super().reject()
 
     def reopen(self, _mw) -> None:

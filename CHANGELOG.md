@@ -3,6 +3,19 @@
 Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [1.0.1] — 2026-10-30
+
+### Behoben
+
+- Der Basis-Tag ließ sich nicht umstellen: die Auswahl sprang sofort auf den
+  zuletzt gespeicherten Tag zurück. Beim Wechsel wurden die Einstellungen
+  erneut aus der Sammlung gelesen und haben die gerade getroffene Auswahl
+  überschrieben. Mit dem Basis-Tag wechseln nun auch Plan, Lerntage,
+  Prioritäts-Tags und der Facetten-Ast für die Titelableitung — sie tragen
+  den alten Basis-Tag im Namen und wären sonst wertlos.
+- Das Schließen des Hauptfensters scheitert nicht mehr, wenn der Dialog nicht
+  bei Ankis Fensterverwaltung registriert ist.
+
 ## [1.0.0] — 2026-10-30
 
 Erste Fassung von **Philterkaffee**.

@@ -20,7 +20,7 @@ installierten AnkiPhil-Stapel mit Lernplan-Tags.
 
 ## Installieren
 
-**Fertiges Paket** (zum Weitergeben): `dist/philterkaffee-1.0.0.ankiaddon`
+**Fertiges Paket** (zum Weitergeben): `dist/philterkaffee-1.0.1.ankiaddon`
 verschicken. In Anki: `Extras → Add-ons → Aus Datei installieren …`, danach
 Anki neu starten.
 

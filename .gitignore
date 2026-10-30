@@ -1,0 +1,24 @@
+# Der AnkiPhil-Stapel selbst (140 MB) gehört nicht ins Repository.
+*.apkg
+*.colpkg
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Anki legt das beim Installieren im Addon-Ordner an
+meta.json
+
+# Gebaute Pakete
+dist/
+
+# Editoren und Betriebssystem
+.idea/
+.vscode/
+.DS_Store
+
+# PyCharm-Vorlage, gehört nicht zum Addon
+/main.py

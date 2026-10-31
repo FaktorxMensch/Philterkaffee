@@ -29,6 +29,12 @@ from .titles_dialog import TitlesDialog
 
 # Retrievability-Sortierungen brauchen FSRS-Gedächtniswerte; Anki blendet sie
 # ohne FSRS selbst aus, ein Addon muss das nachbauen.
+# Bevorzugte Titelquelle, wenn vorhanden — mit Ausweichweg, siehe _best_facet().
+PREFERRED_FACET_NAME = "#Fächer"
+# Ein Facetten-Ast taugt nur als Titelquelle, wenn sich die Titel auch
+# unterscheiden. Unter diesem Anteil gilt er als unbrauchbar.
+MIN_TITLE_VARIETY = 0.5
+
 FSRS_ONLY_ORDERS = frozenset(
     (
         FilteredDeckConfig.SearchTerm.Order.RETRIEVABILITY_ASCENDING,
@@ -58,6 +64,8 @@ class LernplanDialog(QDialog):
         self._stale = True
         self._pending_action = None
         self._derived_titles: dict[str, str] = {}
+        self._facet_titles: dict[str, dict[str, str]] = {}
+        self._facet_titles_plan: str | None = None
         self._note_tags: dict[int, list[str]] = {}
         self._tag_counts: dict[str, int] = {}
         self._effective_titles: dict[str, str] = {}
@@ -597,22 +605,96 @@ class LernplanDialog(QDialog):
                 self.group_list.addItem(item)
         self.group_list.blockSignals(False)
 
-    def _refresh_titles(self) -> None:
-        """Leitet die Titel für den aktuellen Plan neu ab."""
-        assert self.taxonomy is not None
-        plan = self.taxonomy.plan(self._current_plan())
-        facet = self.facet_combo.currentData() or ""
-        if plan is None or not facet or not self._note_tags:
-            self._derived_titles = {
-                group.key: group.label for group in (plan.groups if plan else [])
-            }
-        else:
-            self._derived_titles = titles.derive_titles(
+    def _compute_facet_titles(self) -> None:
+        """Leitet die Titel für **jeden** Facetten-Ast ab.
+
+        Nur dadurch kann die Auswahlliste zeigen, was der jeweilige Ast
+        liefert. Dem blanken Tagnamen sieht man das nicht an: ``#Universitäten``
+        ergibt Titel wie „4 Semester / 3 Semester“, weil dort zwei Ebenen unter
+        der Wurzel das Semester steht und kein Thema.
+        """
+        plan_name = self._current_plan()
+        if self._facet_titles_plan == plan_name and self._facet_titles:
+            return
+        self._facet_titles = {}
+        self._facet_titles_plan = plan_name
+        plan = self.taxonomy.plan(plan_name) if self.taxonomy else None
+        if plan is None or not self._note_tags or self.taxonomy is None:
+            return
+        for facet in self.taxonomy.facet_roots:
+            self._facet_titles[facet] = titles.derive_titles(
                 self.col,
                 groups=plan.groups,
                 facet_root=facet,
                 note_tags=self._note_tags,
             )
+        self._relabel_facet_combo(plan)
+
+    def _facet_distinct(self, facet: str) -> tuple[int, int]:
+        """(verschiedene Titel, Lerntage) — das Maß für die Brauchbarkeit."""
+        derived = self._facet_titles.get(facet, {})
+        return len({title for title in derived.values() if title}), len(derived)
+
+    def _relabel_facet_combo(self, plan) -> None:
+        for index in range(self.facet_combo.count()):
+            facet = self.facet_combo.itemData(index)
+            if not facet:
+                continue
+            derived = self._facet_titles.get(facet, {})
+            example = next(
+                (derived[g.key] for g in plan.groups if derived.get(g.key)), ""
+            )
+            label = facet.split("::")[-1]
+            if example:
+                label += f" — z. B. „{example}“"
+            distinct, total = self._facet_distinct(facet)
+            if total > 3 and distinct <= max(2, total // 4):
+                label += f"  (nur {distinct} verschiedene)"
+            self.facet_combo.setItemText(index, label)
+
+    def _best_facet(self) -> str:
+        """Welcher Facetten-Ast voreingestellt wird.
+
+        Nicht einfach „die meisten verschiedenen Titel“: das belohnt zu
+        feingliedrige Äste. ``#Organsysteme`` liefert für jeden Lerntag einen
+        eigenen Titel („Mundraum & Pharynx / Übersicht“), ``#Fächer`` fasst
+        dieselben Tage sinnvoll zusammen („Verdauungssystem“).
+
+        Also: erst alle Äste aussortieren, deren Titel sich kaum unterscheiden
+        — das trifft ``#Universitäten``, wo zwei Ebenen unter der Wurzel das
+        Semester steht. Unter den verbliebenen hat ``#Fächer`` den Vorzug,
+        falls vorhanden; sonst der zuerst gefundene. Der Name ist damit eine
+        Vorliebe mit funktionierendem Ausweichweg, keine feste Abhängigkeit.
+        """
+        if self.taxonomy is None or not self._facet_titles:
+            return ""
+        roots = self.taxonomy.facet_roots
+        usable = []
+        for facet in roots:
+            distinct, total = self._facet_distinct(facet)
+            if total and distinct >= total * MIN_TITLE_VARIETY:
+                usable.append(facet)
+        if not usable:
+            return max(
+                roots, key=lambda f: (self._facet_distinct(f)[0], -roots.index(f))
+            )
+        for facet in usable:
+            if facet.split("::")[-1] == PREFERRED_FACET_NAME:
+                return facet
+        return usable[0]
+
+    def _refresh_titles(self) -> None:
+        """Übernimmt die Titel des gewählten Facetten-Asts."""
+        assert self.taxonomy is not None
+        self._compute_facet_titles()
+        plan = self.taxonomy.plan(self._current_plan())
+        facet = self.facet_combo.currentData() or ""
+        derived = self._facet_titles.get(facet)
+        if derived is None:
+            derived = {
+                group.key: group.label for group in (plan.groups if plan else [])
+            }
+        self._derived_titles = derived
         self._fill_groups()
 
     # --- Einstellungen <-> Oberfläche ------------------------------------
@@ -643,10 +725,13 @@ class LernplanDialog(QDialog):
         self.prefix_edit.setText(settings.prefix)
         self.pattern_edit.setText(settings.pattern)
 
+        # Beschriftet die Auswahlliste mit Beispieltiteln; muss nach dem
+        # Setzen des Plans laufen, weil die Titel vom Plan abhängen.
+        self._compute_facet_titles()
         facet = settings.title_facet_root
-        if not facet and self.taxonomy is not None:
-            preferred = f"{self.taxonomy.base}::#Fächer"
-            facet = preferred if preferred in self.taxonomy.facet_roots else ""
+        known = self.taxonomy.facet_roots if self.taxonomy is not None else []
+        if facet not in known:
+            facet = self._best_facet()
         self._set_combo(self.facet_combo, facet)
 
         order_index = self.order_combo.findData(settings.order)
@@ -754,6 +839,8 @@ class LernplanDialog(QDialog):
         settings.titles = {}
         settings.title_facet_root = ""
         settings.priority_tags = []
+        self._facet_titles = {}
+        self._facet_titles_plan = None
         self._loading = True
         self._load_collection_data(settings)
 
@@ -762,6 +849,8 @@ class LernplanDialog(QDialog):
             return
         self.settings.selected_groups = []
         self.settings.titles = {}
+        # Die Titel hängen am Plan, also auch die Beispiele in der Liste.
+        self._facet_titles_plan = None
         self._refresh_titles()
         self._on_setting_changed()
 

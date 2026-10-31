@@ -20,7 +20,7 @@ installierten AnkiPhil-Stapel mit Lernplan-Tags.
 
 ## Installieren
 
-**Fertiges Paket** (zum Weitergeben): `dist/philterkaffee-1.0.1.ankiaddon`
+**Fertiges Paket** (zum Weitergeben): `dist/philterkaffee-1.0.2.ankiaddon`
 verschicken. In Anki: `Extras → Add-ons → Aus Datei installieren …`, danach
 Anki neu starten.
 
@@ -60,6 +60,8 @@ Die ausführliche Beschreibung steht in
 - **Titel aus den Fach-Tags.** Die Lerntags-Tags tragen keinen Namen
   (`…::50-Tage::17`). Der Titel entsteht aus den häufigsten `#Fächer`-Tags der
   enthaltenen Karten (`17 → Herz/Kreislauf & Atmung`) und ist überschreibbar.
+  Die Auswahlliste zeigt zu jedem Facetten-Ast ein Beispiel, damit man sieht,
+  was dabei herauskommt — `#Universitäten` etwa liefert nur Semester.
 - **Lerntiefe über alle fünf Prioritäts-Achsen** — Physikum, High-Yield, Top30,
   Formeln, Klinik-Relevanz, mit ODER/UND und Notizzahlen.
 - **Ehrliche Vorschau.** Sie zählt, was Anki nach dem Umbau wirklich holt:

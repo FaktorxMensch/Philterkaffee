@@ -10,7 +10,7 @@ from aqt.qt import QIcon, QPixmap
 ADDON_NAME = "Philterkaffee"
 TAGLINE = "Lernplan-Auswahlstapel für AnkiPhil"
 MENU_TITLE = "Philterkaffee"
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 AUTHOR_COMPANY = "Faktor Mensch MEDIA UG (haftungsbeschränkt)"
 AUTHOR_PERSON = "Emanuel Leube"
 AUTHOR = f"{AUTHOR_COMPANY} — {AUTHOR_PERSON}"

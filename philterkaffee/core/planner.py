@@ -377,7 +377,9 @@ def build_plan(col, taxonomy: Taxonomy, settings: Settings, progress=None) -> Pl
     overlap = settings.overlap_enum
 
     # 1. Namen — plan_deletions muss wissen, welche Namen belegt werden.
-    names = _render_names(settings, plan.name, groups, result.priority_label, dates)
+    names, name_collisions = _render_names(
+        settings, plan.name, groups, result.priority_label, dates
+    )
 
     # 2. Löschungen. Ihre Karten sind beim Bauen frei, zählen also nicht als
     #    blockiert.
@@ -500,7 +502,7 @@ def build_plan(col, taxonomy: Taxonomy, settings: Settings, progress=None) -> Pl
 
     if progress is not None:
         progress(total, total, "")
-    _add_warnings(result, settings, taxonomy, plan.name)
+    _add_warnings(result, settings, taxonomy, plan.name, name_collisions)
     return result
 
 
@@ -510,7 +512,7 @@ def _render_names(
     groups: list[Group],
     priority_text: str,
     dates: dict[str, str],
-) -> list[str]:
+) -> tuple[list[str], int]:
     names = [
         naming.render(
             settings.pattern,
@@ -526,15 +528,32 @@ def _render_names(
         )
         for group in groups
     ]
-    return naming.deduplicate(names)
+    # Kollisionen zählen, bevor deduplicate() sie mit „(2)“ unsichtbar macht:
+    # viele gleiche Namen heißt fast immer, dass die Titelquelle nichts
+    # Unterscheidendes hergibt.
+    collisions = len(names) - len({name.casefold() for name in names})
+    return naming.deduplicate(names), collisions
 
 
 def _add_warnings(
-    result: PlanResult, settings: Settings, taxonomy: Taxonomy, plan_name: str
+    result: PlanResult,
+    settings: Settings,
+    taxonomy: Taxonomy,
+    plan_name: str,
+    name_collisions: int = 0,
 ) -> None:
     if not result.proposals:
         result.errors.append("Es konnte kein Stapel geplant werden.")
         return
+
+    if name_collisions:
+        result.warnings.append(
+            f"{name_collisions} Lerntage hätten denselben Stapelnamen bekommen und "
+            "wurden mit „(2)“, „(3)“ unterschieden. Das deutet darauf hin, dass "
+            "die gewählte Titelquelle nichts Unterscheidendes hergibt — unter "
+            "„Titel ableiten aus“ einen anderen Facetten-Ast wählen oder die Titel "
+            "von Hand setzen."
+        )
 
     empty = [p.deck_name for p in result.proposals if p.count == 0]
     if empty and not settings.allow_empty:

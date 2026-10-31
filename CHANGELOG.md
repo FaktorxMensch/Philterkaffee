@@ -3,6 +3,21 @@
 Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/),
 Versionierung nach [SemVer](https://semver.org/lang/de/).
 
+## [1.0.2] — 2026-10-31
+
+### Behoben
+
+- Die Auswahlliste „Titel ableiten aus“ zeigte nur die nackten Tagnamen. Wer
+  dort ``#Universitäten`` wählte, bekam Stapel wie „01 – 4 Semester /
+  3 Semester“: zwei Ebenen unter dieser Wurzel steht das Semester und kein
+  Thema. Jede Zeile nennt jetzt ein Beispiel für das Ergebnis, und Äste mit
+  kaum unterscheidbaren Titeln werden als solche gekennzeichnet.
+- Die Voreinstellung hängt nicht mehr fest am Namen ``#Fächer``: Äste, deren
+  Titel sich kaum unterscheiden, fallen heraus, und unter den brauchbaren hat
+  ``#Fächer`` den Vorzug, falls vorhanden.
+- Neue Warnung in der Vorschau, wenn mehrere Lerntage denselben Stapelnamen
+  bekämen und mit „(2)“, „(3)“ unterschieden werden müssten.
+
 ## [1.0.1] — 2026-10-30
 
 ### Behoben
